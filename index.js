@@ -13,7 +13,7 @@ app.use(express.json())
 //DB_PASS=@!#3iDTQP-sVwVd
 
 // server connect to mongodb
-const uri = "mongodb+srv://warehouseUser:@!#3iDTQP-sVwVd@cluster0.zj1lt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.zj1lt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect(err => {
   const collection = client.db("bookStore").collection("books");
