@@ -50,9 +50,19 @@ async function run() {
             const books = await cursor.toArray();
             res.send(books);
         });
+
+        // post method
         app.post('/inventory', async(req, res) =>{
             const newInventory = req.body;
             const result = await productCollection.insertOne(newInventory);
+            res.send(result);
+        })
+
+        // delete method
+        app.delete('/inventory/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const result = await productCollection.deleteOne(query);
             res.send(result);
         })
     }
