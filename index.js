@@ -50,6 +50,11 @@ async function run() {
             const books = await cursor.toArray();
             res.send(books);
         });
+        app.post('/inventory', async(req, res) =>{
+            const newInventory = req.body;
+            const result = await productCollection.insertOne(newInventory);
+            res.send(result);
+        })
     }
     finally {
 
