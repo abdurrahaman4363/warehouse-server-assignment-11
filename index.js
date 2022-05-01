@@ -21,6 +21,7 @@ async function run() {
         const productCollection = client.db('warehouse').collection('products');
         const bookCollection = client.db('programming').collection('book');
         const booksCollection = client.db('electronicBook').collection('books');
+        const addCollection = client.db('warehouse').collection('add')
 
         // to load use get method inventory item
         app.get('/inventory', async (req, res) => {
@@ -29,6 +30,48 @@ async function run() {
             const inventoryItems = await cursor.toArray();
             res.send(inventoryItems);
         });
+        // with email query for add
+        app.get('/addItem', async (req, res) => {
+            const email = req.query?.email;
+            const query = {email:email};
+            const cursor = addCollection.find(query);
+            const inventoryItems = await cursor.toArray();
+            res.send(inventoryItems);
+        });
+       /*  app.get('/addItem', async (req, res) => {
+            const query = {};
+            const cursor = addCollection.find(query);
+            const inventoryItems = await cursor.toArray();
+            res.send(inventoryItems);
+        }); */
+
+         // post method
+         app.post('/inventory', async(req, res) =>{
+            const newInventory = req.body;
+            const result = await productCollection.insertOne(newInventory);
+            res.send(result);
+        })
+
+        // add item
+        app.post('/addItem', async(req, res)=>{
+            const add = req.body;
+            const result = await addCollection.insertOne(add);
+            res.send(result);
+        })
+        app.delete('/addItem/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const result = await addCollection.deleteOne(query);
+            res.send(result);
+        })
+
+         // delete method
+         app.delete('/inventory/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const result = await productCollection.deleteOne(query);
+            res.send(result);
+        })
        // to load use get method inventory item one
         app.get('/inventory/:id', async (req, res) => {
             const id = req.params.id;
@@ -51,20 +94,7 @@ async function run() {
             res.send(books);
         });
 
-        // post method
-        app.post('/inventory', async(req, res) =>{
-            const newInventory = req.body;
-            const result = await productCollection.insertOne(newInventory);
-            res.send(result);
-        })
-
-        // delete method
-        app.delete('/inventory/:id', async(req, res) => {
-            const id = req.params.id;
-            const query = {_id:ObjectId(id)};
-            const result = await productCollection.deleteOne(query);
-            res.send(result);
-        })
+       
     }
     finally {
 
