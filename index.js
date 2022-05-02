@@ -75,6 +75,17 @@ async function run() {
             const result = await addCollection.deleteOne(query);
             res.send(result);
         })
+
+        // get data
+
+       app.get('/addMyItem', async(req, res) =>{
+           const email = req.query.email;
+           const query = {email: email};
+           const cursor = addCollection.find(query);
+           const result = await cursor.toArray();
+           res.send(result);
+       })
+
         // with email query for add
         app.get('/addItem', verifyJWT, async (req, res) => {
             const decodedEmail = req.decoded.email;
