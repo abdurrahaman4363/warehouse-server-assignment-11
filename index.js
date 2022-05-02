@@ -131,6 +131,21 @@ async function run() {
             res.send(books);
         });
 
+        // put 
+        app.put('/inventory/:id', async(req, res) =>{
+            const id = req.params.id;
+            const addQuantity = req.body;
+            const filter = {_id: ObjectId(id)};
+            const options = {upsert:true};
+            const updateDoc = {
+                $set:{
+                    quantity:addQuantity.quantity
+                }
+            };
+            const result = await productCollection.updateOne(filter,updateDoc,options);
+            res.send(result);
+        })
+
 
     }
     finally {
