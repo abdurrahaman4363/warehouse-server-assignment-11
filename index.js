@@ -60,6 +60,21 @@ async function run() {
             const inventoryItems = await cursor.toArray();
             res.send(inventoryItems);
         });
+
+        /// testing
+        app.get('/add', async (req, res) => {
+            const query = {};
+            const cursor = addCollection.find(query);
+            const inventoryItems = await cursor.toArray();
+            res.send(inventoryItems);
+        });
+        /// add delete
+        app.delete('/add/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await addCollection.deleteOne(query);
+            res.send(result);
+        })
         // with email query for add
         app.get('/addItem', verifyJWT, async (req, res) => {
             const decodedEmail = req.decoded.email;
