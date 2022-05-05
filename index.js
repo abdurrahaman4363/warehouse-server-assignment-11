@@ -53,7 +53,7 @@ async function run() {
 
         })
 
-        // to load use get method inventory item
+        
         app.get('/inventory', async (req, res) => {
             const query = {};
             const cursor = productCollection.find(query);
@@ -61,14 +61,14 @@ async function run() {
             res.send(inventoryItems);
         });
 
-        /// testing
+    
         app.get('/add', async (req, res) => {
             const query = {};
             const cursor = addCollection.find(query);
             const inventoryItems = await cursor.toArray();
             res.send(inventoryItems);
         });
-        /// add delete
+    
         app.delete('/add/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -101,12 +101,7 @@ async function run() {
             }
 
         });
-        /*  app.get('/addItem', async (req, res) => {
-             const query = {};
-             const cursor = addCollection.find(query);
-             const inventoryItems = await cursor.toArray();
-             res.send(inventoryItems);
-         }); */
+       
 
         // post method
         app.post('/inventory', async (req, res) => {
